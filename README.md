@@ -39,3 +39,5 @@ D.head()
 | 3 |  336.0 |  211.1  |   28.9  |    20.2   |
 | 4 |  314.0 |  215.9  |   19.5  |    23.4   |
 
+[nuage de points](https://github.com/EPradillon/Dataviz/blob/main/lipid%26prot-nuage-de-points.png)
+
