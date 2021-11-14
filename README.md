@@ -1,24 +1,23 @@
 # Datamining
-
+Objectif : créer un procéssus d'analyse de clustering a partir d'un jeu de données.
+On va essayer a partir des propriétés des fromages de créer des regroupements
 ## 1. Congiguration de l'environnement python
 ```python
 # ------- IMPORT LIBRARY ------- #
 import os
 import pandas
-# directory :
+# dModification du repertoire de travail
     os.chdir("/home/etienne/epsi/dataviz")
 ```
 
 ## 2. Configuration des données
 
 ```python
-# Lecture du fichier dans le dossier
+# Chargement du jeu de données :
 D = pandas.read_table("fromage.txt",decimal=".")
-# Pré-visualisation des données
+# Affichage d'un résumé concis des données
 D.info()
 ```
-
-> Tableau retravaillé sur https://www.tablesgenerator.com/markdown_tables
 
 | Column |    Non    |    Count    |  Dtype  |
 |-------:|:---------:|:-----------:|:-------:|
@@ -28,7 +27,7 @@ D.info()
 |      3 | proteines | 29 non-null | float64 |
 
 ```python
-# Affichage des valeurs "de tête"
+# Affichage des premières valeurs (permet de rapidement vérifier les données présentes)
 D.head()
 ```
 |   | sodium | calcium | lipides | proteines |
@@ -59,10 +58,12 @@ sns.pairplot(D)
 
 ![nuage de points](https://github.com/EPradillon/Dataviz/blob/main/baresmoyenne.png)
 
+>L'avantage de ce graphique est de pouvoir créer des relations entre certaines propriétés. Par exemple il est facil de >remarquer que les calories d'un fromage sont intimement liées à la quantités de lipides. (Ce qui est logique)
+
 7. Renvoi la moyenne des valeurs du tableau.
 
 ```python
-#moyennes par variabLe
+# Retourne la valeur moyenne du jeu de données pour un axe précis
 D.mean(axis=0)
 ```
 
@@ -73,9 +74,9 @@ D.mean(axis=0)
 | proteines | 20.168966  |
 `dtype: float64`
 
-8. Renvoi l'écart type par variable, permettant de mesurer la dispersion de celles-ci.
+8. Calcul de l'écart type, permettant d'affiner la dispersion des moyennes
 ```python
-#écarts-type par variabLe
+# Calcul de la déviation par variable (écarts-type)
 D.std(axis=0)
 ```
 
@@ -85,12 +86,12 @@ D.std(axis=0)
 | lipides   | 8.129642   |
 | proteines | 6.959788   |
 
-8. On standardise ( centrée-réduite ) les variable en deux étapes :
-Par centrage en soutrayant la moyenne aux valeurs du datase, on aura alors l'écart
-positif ou négatif avec cette moyenne
-Par Réduction en divisant les variables par l'écart type
-Une fois la variable standardisée, la moyenne devrait etre de zéro et l'écart type de 1
 
+
+Standardisation : l'objectif est de pouvoir comparer correctement les données entre elles.
+On cherche à obtenir un format qui permetra de créer des correlations précise entre les variables.
+(on fait un centrage puis une reduction)
+Une fois la variable standardisée, la moyenne devrait etre de zéro et l'écart type de 1
 ```python
 #standardisation
 Z = (D - D.mean(axis=0))/D.std(axis=0)
@@ -109,8 +110,7 @@ print(Z)
 | 7   | 0.606500  | -0.728461 | 0.152698  | -0.340379 |
 | ... | ...       | ...       | ...       | ...       |
 
-9. On vérifie la standardisation des variables par leur moyenne. La valeur de la moyenne est
-bien très proche de zéro pour chaque variables.
+Une fois standardisée les valeurs moyennes sont proches de 0
 ```python
 #Vérification de La standardisation - moyennes
 Z.mean(axis=0)
@@ -123,8 +123,8 @@ Z.mean(axis=0)
 | proteines | 9.188053e-17 |
 `dtype: float64`
 
-10. On vérifie l'écart type des variables. La valeur moyenne est bien de 1, la standardisation est
-donc bien executée.
+Pour vérifier que la standardisation est correctement configurée on peut executer a nouveau std pour vérifier l'écart type
+
 
 ```python
 #Vérification - écarts-type
@@ -138,7 +138,9 @@ Z.std(axis=0)
 | proteines | 1.0 |
 `dtype: float64`
 
-11. Partitionnement des données en cluster, la fonction a généré 2 clusters Kmeans.
+Kmeans est utilisé pour créer des groupes (cluster) au seins du jeu de données.
+C'est un algorithme non supervisé il n'y aura pas d'entrainement.
+On peut décider du nombre de cluster a former
 ```python
 #k-means avec 2 groupes
 from sklearn import cluster
@@ -147,13 +149,12 @@ res.fit(Z)
 ```
 `KMeans(n_clusters=2)`
 
-12. Affiche les labels pour chaque set de variables
-13. `res.labels_`
-14. `array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0,
+ `res.labels_`
+ `array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0,
 0, 0, 0, 0, 0, 0, 1])`
 
-13. Récupère le nom d'éléments unique du cluster, soit les 2 clusters
-14. ```python
+ Affichage des 2 clusters
+ ```python
 #num. de cLuster affectés aux groupes res.labels
 #effectifs par groupe
 import numpy
