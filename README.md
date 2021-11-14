@@ -39,7 +39,7 @@ D.head()
 | 4 |  314.0 |  215.9  |   19.5  |    23.4   |
 
 
-5. On génère un graphique à nuage de points prenez les valeurs des lipides et protéines.
+Graphique nuage de point
 ```python
 D.plot(x="lipides",y="proteines",kind="scatter")
 ```
@@ -47,8 +47,6 @@ D.plot(x="lipides",y="proteines",kind="scatter")
 
 ![nuage de points](https://github.com/EPradillon/Dataviz/blob/main/lipid%26prot-nuage-de-points.png)
 
-6. Affiche des graphiques à nuage de points avec toutes les paires possibles du tableau de
-valeurs.
 ```python
 #nuages par paire
 import seaborn as sns
@@ -59,8 +57,8 @@ sns.pairplot(D)
 ![nuage de points](https://github.com/EPradillon/Dataviz/blob/main/baresmoyenne.png)
 
 >L'avantage de ce graphique est de pouvoir créer des relations entre certaines propriétés. Par exemple il est facil de >remarquer que les calories d'un fromage sont intimement liées à la quantités de lipides. (Ce qui est logique)
-
-7. Renvoi la moyenne des valeurs du tableau.
+>
+Retourne la valeur moyenne du jeu de données pour un axe précis
 
 ```python
 # Retourne la valeur moyenne du jeu de données pour un axe précis
@@ -74,7 +72,8 @@ D.mean(axis=0)
 | proteines | 20.168966  |
 `dtype: float64`
 
-8. Calcul de l'écart type, permettant d'affiner la dispersion des moyennes
+Calcul de la déviation par variable (écarts-type)
+
 ```python
 # Calcul de la déviation par variable (écarts-type)
 D.std(axis=0)
@@ -152,7 +151,7 @@ res.fit(Z)
  `res.labels_`
  `array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0,
 0, 0, 0, 0, 0, 0, 1])`
-
+> dataframe
  Affichage des 2 clusters
  ```python
 #num. de cLuster affectés aux groupes res.labels
@@ -163,8 +162,6 @@ numpy.unique(res.labels_,return_counts=True)
 `(array([0, 1]), array([24,
 5], dtype=int64))`
 
-14. On ajoute au dataset les labels correspondant au cluster et génère le graphique de nuage à
-points avec toutes les paires possibles en séparant les
 
 ```python
 #ajouter La variabLe au data-frame initial
@@ -177,19 +174,21 @@ sns.pairplot(B,hue="labels")
 `<seaborn.axisgrid.PairGrid at 0x13f151ad1c0>`
 
 ![](https://github.com/EPradillon/Dataviz/blob/main/curves.png)
-15. Groupe les données dans le dataset en fonction du label lié aux clusters.
-```python
+> Ce regroupement en 2 clusters permet de clairement identifier deux gammes de froamge très différentes.
+> les propriétés des fromages frais sont suffisement eloignés de celles des fromages traditionnaux pour être très clairement identifier sur les graphiques.
+
+
+```pythons
 #moyennes par groupe
 gb = D.groupby(res.labels_)
 #effectifs par cLasse$
 gb.size()
 ```
-
+> L'opération implique de séparer les objets en groupes distinct et de combiner les éléments de données ressemblant entre eux.
 | 0 | 24 |
 |---|----|
 | 1 | 5  |
 
-16. Récupère la moyenne des variables en fonction des clusters.
 ```python
 #moyennes par cLasse
 gb.mean()
@@ -206,9 +205,7 @@ resBis = cluster.KMeans(n_clusters=3)
 resBis.fit(Z)
 ```
 `KMeans(n_clusters=3)`
-18. On modifie le dataset avec les nouveaux clusters et on génère le graphique de nuage a
-points pour toutes les paires possibles en fonction des clusters. On définit les couleurs en
-fonction du label.
+
 ```python
 #graphique
 B = D.copy()
@@ -218,3 +215,4 @@ sns.pairplot(B,hue="labels", palette={0:'blue', 1:'green', 2:'red'})
 
 `<seaborn.axisgrid.PairGrid at 0x13f179d7070>`
 ![](https://github.com/EPradillon/Dataviz/blob/main/multicurvecolor.png)
+> Avec 3 regroupements on s'apperçoit que les fromage frais sont toujours bien en marge mais cette fois ci il a été possible de séparer les fromages traditionnaux en 2 groupes. Un groupe étant largement plus riche que l'autre car toutes ses propriétés sont surélevées.
