@@ -174,8 +174,8 @@ sns.pairplot(B,hue="labels")
 `<seaborn.axisgrid.PairGrid at 0x13f151ad1c0>`
 
 ![](https://github.com/EPradillon/Dataviz/blob/main/curves.png)
-> Ce regroupement en 2 clusters permet de clairement identifier deux gammes de froamge très différentes.
-> les propriétés des fromages frais sont suffisement eloignés de celles des fromages traditionnaux pour être très clairement identifier sur les graphiques.
+> Ce regroupement en 2 clusters permet de clairement identifier deux gammes de fromage très différentes.
+
 
 
 ```pythons
@@ -215,4 +215,4 @@ sns.pairplot(B,hue="labels", palette={0:'blue', 1:'green', 2:'red'})
 
 `<seaborn.axisgrid.PairGrid at 0x13f179d7070>`
 ![](https://github.com/EPradillon/Dataviz/blob/main/multicurvecolor.png)
-> Avec 3 regroupements on s'apperçoit que les fromage frais sont toujours bien en marge mais cette fois ci il a été possible de séparer les fromages traditionnaux en 2 groupes. Un groupe étant largement plus riche que l'autre car toutes ses propriétés sont surélevées.
+> Avec 3 regroupements on s'apperçoit qu'un groupe est toujours bien en marge mais cette fois ci il a été possible de séparer les autres éléments en 2 groupes. Un groupe étant largement plus riche que l'autre car toutes ses propriétés sont surélevées.
